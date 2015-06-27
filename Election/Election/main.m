@@ -71,7 +71,6 @@
 
 @end
 
-
 // Election class
 @implementation Election {
     NSString *_electionName;
@@ -112,7 +111,6 @@
     }
 }
 
-
 - (void)displayResults {
     printf("\n%s\n", [_electionName UTF8String]);
     for (Contender *c in _listOfContenders) {
@@ -150,7 +148,6 @@
 }
 
 @end
-
 
 // ElectionManager class
 @interface ElectionManager : NSObject
@@ -198,14 +195,74 @@
     return answer != 0;
 }
 
+@end
+
+@interface VotingSimulator : NSObject
+
+-(void)simulate;
 
 @end
 
+@implementation VotingSimulator
 
+-(void)simulate{
+    //Select Election name
+    char electionNameByUser[60];
+    NSLog(@"Please enter election name: ");
+    scanf("%[^\n]", electionNameByUser);
+    NSString *electionName = [NSString stringWithFormat:@"%s", electionNameByUser];
+
+    //First candidate
+    char firstCandidateByUser[60];
+    NSLog(@"Enter a name for candidate 1: ");
+    scanf(" %[^\n]", firstCandidateByUser);
+    NSString *firstCandidate = [NSString stringWithFormat:@"%s", firstCandidateByUser];
+    
+    //second candidate
+    char secondCandidateByUser[60];
+    NSLog(@"Enter a name for candidate 2: ");
+    scanf(" %[^\n]", secondCandidateByUser);
+    NSString *secondCandidate = [NSString stringWithFormat:@"%s", secondCandidateByUser];
+    
+    //third candidate
+    char thirdCandidateByUser[60];
+    NSLog(@"Enter a name for candidate 3: ");
+    scanf(" %[^\n]", thirdCandidateByUser);
+    NSString *thirdCandidate = [NSString stringWithFormat:@"%s", thirdCandidateByUser];
+    
+    //fourth candidate
+    char fourthCandidateByUser[60];
+    NSLog(@"Enter a name for candidate 4: ");
+    scanf(" %[^\n]", fourthCandidateByUser);
+    NSString *fourthCandidate = [NSString stringWithFormat:@"%s", fourthCandidateByUser];
+
+    Election *Election2015 = [[Election alloc] initWithElectionName:electionName];
+    
+    Contender *Candidate1 = [[Contender alloc] initWithName:firstCandidate];
+    Contender *Candidate2 = [[Contender alloc] initWithName:secondCandidate];
+    Contender *Candidate3 = [[Contender alloc] initWithName:thirdCandidate];
+    Contender *Candidate4 = [[Contender alloc] initWithName:fourthCandidate];
+
+    [Election2015 addContender:Candidate1];
+    [Election2015 addContender:Candidate2];
+    [Election2015 addContender:Candidate3];
+    [Election2015 addContender:Candidate4];
+    
+    ElectionManager *Manager = [[ElectionManager alloc] init];
+    
+    [Manager manage:Election2015];
+    [Manager initiatePolling];
+    [Manager displayResults];
+    
+}
+
+@end
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
+        VotingSimulator *getReadyToVote = [[VotingSimulator alloc] init];
+        [getReadyToVote simulate];
     }
     return 0;
 }
